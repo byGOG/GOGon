@@ -315,6 +315,18 @@ class SoftwareInstallerApp(QWidget):
         defender_remover_action.triggered.connect(self.download_and_run_defender_remover)
         tools_menu.addAction(defender_remover_action)
 
+        fido_action = QAction(QIcon(resource_path("icons/terminal.png")), 'Fido [Windows ISO İndirici]', self)
+        fido_action.triggered.connect(self.run_fido_script)
+        tools_menu.addAction(fido_action)
+
+        tools_menu.addSeparator()
+
+        winfetch_action = QAction(QIcon(resource_path("icons/terminal.png")), 'Winfetch [Sistem Bilgileri]', self)
+        winfetch_action.triggered.connect(self.run_winfetch_script)
+        tools_menu.addAction(winfetch_action)
+
+        tools_menu.addSeparator()
+
         atlasos_action = QAction(QIcon(resource_path("icons/atlasos.png")), 'Atlas OS', self)
         atlasos_action.triggered.connect(lambda: webbrowser.open("https://atlasos.net/"))
         tools_menu.addAction(atlasos_action)
@@ -592,6 +604,18 @@ class SoftwareInstallerApp(QWidget):
         local_filename = os.path.join(tempfile.gettempdir(), "DefenderRemover.exe")
         subprocess.run(["curl", "-L", "-o", local_filename, "https://github.com/ionuttbara/windows-defender-remover/releases/latest/download/DefenderRemover.exe"])
         subprocess.run(["powershell", "-Command", f'Start-Process "{local_filename}" -Verb RunAs'])
+
+    def run_fido_script(self):
+        tools_dir = "C:\\tools"
+        os.makedirs(tools_dir, exist_ok=True)
+        fido_path = os.path.join(tools_dir, 'Fido.ps1')
+        subprocess.run(["powershell", "-Command", f'irm "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile "{fido_path}"; & "{fido_path}"'])
+
+    def run_winfetch_script(self):
+        tools_dir = "C:\\tools"
+        os.makedirs(tools_dir, exist_ok=True)
+        winfetch_path = os.path.join(tools_dir, 'winfetch.ps1')
+        subprocess.run(["powershell", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'])
 
     def open_ninite(self):
         webbrowser.open("https://ninite.com/")
