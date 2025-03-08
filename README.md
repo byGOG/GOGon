@@ -1,4 +1,4 @@
-Bu Python dosyası, `byGOG - Çevrimiçi Yükleyici` adında bir yazılım yükleme aracını tanımlar. Bu araç, kullanıcıların çeşitli yazılımları kolayca indirip kurmalarını sağlamak amacıyla geliştirilmiştir. Program, PySide6 kütüphanesi kullanılarak bir grafiksel kullanıcı arayüzü (GUI) sunar ve kullanıcıların yazılımları seçip tek tıkla kurmalarını sağlar. Ayrıca, yazılımların kurulum durumunu kontrol edebilir ve kullanıcıya geri bildirimde bulunur.
+Bu Python dosyası, `GOG - Çevrimiçi Yükleyici` adında bir yazılım yükleme aracını tanımlar. Bu araç, kullanıcıların çeşitli yazılımları kolayca indirip kurmalarını sağlamak amacıyla geliştirilmiştir. Program, PySide6 kütüphanesi kullanılarak bir grafiksel kullanıcı arayüzü (GUI) sunar ve kullanıcıların yazılımları seçip tek tıkla kurmalarını sağlar. Ayrıca, yazılımların kurulum durumunu kontrol edebilir ve kullanıcıya geri bildirimde bulunur.
 
 ### Programın Temel Özellikleri:
 
@@ -65,4 +65,4 @@ Bu Python dosyası, `byGOG - Çevrimiçi Yükleyici` adında bir yazılım yükl
 - **Winreg:** Windows kayıt defteri işlemleri için `winreg` modülü kullanılır. Özellikle Java gibi yazılımların kurulum durumu, kayıt defteri üzerinden kontrol edilir.
 
 ### Özet:
-`byGOG - Çevrimiçi Yükleyici`, kullanıcıların çeşitli yazılımları kolayca indirip kurmalarını sağlayan bir araçtır. Modern bir kullanıcı arayüzüne sahiptir ve kullanıcı dostu özellikler sunar. Program, yazılımları kategorilere ayırarak sunar, kurulum durumunu kontrol eder ve kullanıcıya geri bildirimde bulunur. Ayrıca, çeşitli sistem araçlarına ve betiklere hızlı erişim sağlar.
+`GOG - Çevrimiçi Yükleyici`, kullanıcıların çeşitli yazılımları kolayca indirip kurmalarını sağlayan bir araçtır. Modern bir kullanıcı arayüzüne sahiptir ve kullanıcı dostu özellikler sunar. Program, yazılımları kategorilere ayırarak sunar, kurulum durumunu kontrol eder ve kullanıcıya geri bildirimde bulunur. Ayrıca, çeşitli sistem araçlarına ve betiklere hızlı erişim sağlar.
