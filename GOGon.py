@@ -1,6 +1,6 @@
 import os
-os.system("title byGOG")
-print("by GOG - Çevrimiçi Yükleyici\n\nBu program, çeşitli yazılımların kolayca indirilip kurulmasına yardımcı olmak amacıyla, tamamen yapay zeka kullanılarak GOG tarafından geliştirilmiştir.")
+os.system("title GOGon")
+print("GOG - Çevrimiçi Yükleyici\n\nBu program, çeşitli yazılımların kolayca indirilip kurulmasına yardımcı olmak amacıyla, tamamen yapay zeka kullanılarak GOG tarafından geliştirilmiştir.")
 import sys
 import requests
 import subprocess
@@ -256,7 +256,7 @@ class SoftwareInstallerApp(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('by GOG - Çevrimiçi Yükleyici')
+        self.setWindowTitle('GOGon - Çevrimiçi Yükleyici')
         self.setWindowIcon(QIcon(resource_path('icons/cmd.ico')))
         
         # Ekran çözünürlüğünü alın
@@ -468,7 +468,7 @@ class SoftwareInstallerApp(QWidget):
 
         for category, software_dict in software_list.items():
             category_group = QGroupBox(category)
-            category_group.setStyleSheet("QGroupBox { font-weight: bold; font-family: 'Calibri'; }")
+            category_group.setStyleSheet("QGroupBox { font-weight: bold; font-family: 'Calibri '; }")
             category_layout = QVBoxLayout(category_group)
             category_layout.setSpacing(2)  # Reduce spacing between items
             category_group.setLayout(category_layout)
@@ -493,7 +493,7 @@ class SoftwareInstallerApp(QWidget):
                 self.status_labels[software] = status_label
 
                 cb = QCheckBox(software)
-                cb.setStyleSheet("font-size: 12px; font-family: 'Calibri'; font-weight: normal;")  # Smaller font size
+                cb.setStyleSheet("font-size: 12px; font-family: 'Consolas'; font-weight: normal;")  # Smaller font size
                 cb.stateChanged.connect(self.update_selected_count)
                 self.software_checkboxes[software] = cb
                 software_layout.addWidget(cb)
@@ -562,13 +562,13 @@ class SoftwareInstallerApp(QWidget):
 
         button_layout = QHBoxLayout()
         self.install_button = QPushButton('Yükle', self)
-        self.install_button.setStyleSheet("font-size: 14px; padding: 10px; font-family: 'Calibri';")
+        self.install_button.setStyleSheet("font-size: 14px; padding: 10px; font-family: 'Consolas';")
         self.install_button.setIcon(QIcon(resource_path("icons/Run.png")))
         self.install_button.clicked.connect(self.on_install_button_click)
         button_layout.addWidget(self.install_button)
 
         self.exit_button = QPushButton('Çıkış', self)
-        self.exit_button.setStyleSheet("font-size: 14px; padding: 10px; font-family: 'Calibri';")
+        self.exit_button.setStyleSheet("font-size: 14px; padding: 10px; font-family: 'Consolas';")
         self.exit_button.setIcon(QIcon(resource_path("icons/Exit.png")))
         self.exit_button.clicked.connect(self.close)
         button_layout.addWidget(self.exit_button)
@@ -580,7 +580,7 @@ class SoftwareInstallerApp(QWidget):
         self.setGeometry(screen_width - (screen_width // 4) - 20, screen_height // 7, screen_width // 5, screen_height * 3 // 4)
 
     def show_about_dialog(self):
-        QMessageBox.about(self, "Hakkında", "by GOG - Çevrimiçi Yükleyici\n\nBu program, çeşitli yazılımların kolayca indirilip kurulmasına yardımcı olmak amacıyla, tamamen yapay zeka kullanılarak GOG tarafından geliştirilmiştir.")
+        QMessageBox.about(self, "Hakkında", "GOG - Çevrimiçi Yükleyici\n\nBu program, çeşitli yazılımların kolayca indirilip kurulmasına yardımcı olmak amacıyla, tamamen yapay zeka kullanılarak GOG tarafından geliştirilmiştir.")
 
     def run_mas_script(self):
         subprocess.run(["powershell", "-Command", "irm https://get.activated.win | iex"])
