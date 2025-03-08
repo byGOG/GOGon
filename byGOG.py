@@ -337,6 +337,10 @@ class SoftwareInstallerApp(QWidget):
 
         tools_menu.addSeparator()
 
+        antizapret_action = QAction(QIcon(resource_path("icons/terminal.png")), 'AntiZapret [Sanal Özel Ağ]', self)
+        antizapret_action.triggered.connect(lambda: webbrowser.open("https://antizapret.prostovpn.org/"))
+        tools_menu.addAction(antizapret_action)
+
         # Yazılım Yükleyicileri menü öğesi
         installers_menu = menu_bar.addMenu('Yazılım Yükleyicileri')
         ninite_action = QAction(QIcon(resource_path("icons/Ninite.png")), 'Ninite.net', self)
@@ -415,30 +419,17 @@ class SoftwareInstallerApp(QWidget):
         msconfig_action.triggered.connect(lambda: os.startfile("msconfig"))
         system_tools_menu.addAction(msconfig_action)
 
+        # Kullanıcı Hesabı Denetimi ayarları
+        uac_settings_action = QAction(QIcon(resource_path("icons/uac.png")), 'Kullanıcı Hesabı Denetimi', self)
+        uac_settings_action.triggered.connect(lambda: os.startfile("UserAccountControlSettings.exe"))
+        system_tools_menu.addAction(uac_settings_action)
+
         # Windows Güvenliği menü öğesi
         windows_security_action = QAction(QIcon(resource_path("icons/windows_security.png")), 'Windows Güvenliği', self)
         windows_security_action.triggered.connect(lambda: os.startfile("windowsdefender:"))
         system_tools_menu.addAction(windows_security_action)
 
         system_tools_menu.addSeparator()
-
-        # Sordum.org menü öğesi
-        sordum_menu = menu_bar.addMenu('Sordum.org')
-        dns_jumper_installer_action = QAction(QIcon(resource_path("icons/DnsJumper.ico")), 'Dns Jumper', self)
-        dns_jumper_installer_action.triggered.connect(lambda: subprocess.run(["cmd.exe", "/c", resource_path("Software/Sordum/DnsJumper-OnlineInstaller.cmd")]))
-        sordum_menu.addAction(dns_jumper_installer_action)
-
-        dcontrol_installer_action = QAction(QIcon(resource_path("icons/dcontrol.ico")), 'Defender Control', self)
-        dcontrol_installer_action.triggered.connect(lambda: subprocess.run(["cmd.exe", "/c", resource_path("Software/Sordum/dControl-OnlineInstaller.cmd")]))
-        sordum_menu.addAction(dcontrol_installer_action)
-
-        defender_exclusion_tool_action = QAction(QIcon(resource_path("icons/DefenderExclusionTool.ico")), 'Defender Exclusion Tool', self)
-        defender_exclusion_tool_action.triggered.connect(lambda: subprocess.run(["cmd.exe", "/c", resource_path("Software/Sordum/DefenderExclusionTool-OnlineInstaller.cmd")]))
-        sordum_menu.addAction(defender_exclusion_tool_action)
-
-        windows_update_blocker_action = QAction(QIcon(resource_path("icons/WindowsUpdateBlocker.ico")), 'Windows Update Blocker', self)
-        windows_update_blocker_action.triggered.connect(lambda: subprocess.run(["cmd.exe", "/c", resource_path("Software/Sordum/WindowsUpdateBlocker-OnlineInstaller.cmd")]))
-        sordum_menu.addAction(windows_update_blocker_action)
 
         # Hakkında menü öğesi
         about_menu = menu_bar.addMenu('Hakkında')
@@ -606,16 +597,16 @@ class SoftwareInstallerApp(QWidget):
         subprocess.run(["powershell", "-Command", f'Start-Process "{local_filename}" -Verb RunAs'])
 
     def run_fido_script(self):
-        tools_dir = "C:\\tools"
+        tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         fido_path = os.path.join(tools_dir, 'Fido.ps1')
-        subprocess.run(["powershell", "-Command", f'irm "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile "{fido_path}"; & "{fido_path}"'])
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile "{fido_path}"; & "{fido_path}"'])
 
     def run_winfetch_script(self):
-        tools_dir = "C:\\tools"
+        tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         winfetch_path = os.path.join(tools_dir, 'winfetch.ps1')
-        subprocess.run(["powershell", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'])
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'])
 
     def open_ninite(self):
         webbrowser.open("https://ninite.com/")
@@ -768,7 +759,7 @@ class SoftwareInstallerApp(QWidget):
 
     def toggle_recommended(self):
         recommended_software = [
-            "WinRAR", "K-Lite Codec Pack Mega", "Spotify", "BleachBit", 
+            "WinRAR", "K-Lite Codec Pack Mega", "BleachBit", 
             "HWiNFO", "Snappy Driver Installer Origin", "Rufus", "UniGetUI", 
             "Discord", "AnyDesk", "Brave Browser", "Google Chrome"
         ]
