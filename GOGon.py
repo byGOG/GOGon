@@ -337,7 +337,7 @@ class SoftwareInstallerApp(QWidget):
 
         tools_menu.addSeparator()
 
-        antizapret_action = QAction(QIcon(resource_path("icons/terminal.png")), 'AntiZapret [Sanal Özel Ağ]', self)
+        antizapret_action = QAction(QIcon(resource_path("icons/AntiZapret.png")), 'AntiZapret [Sanal Özel Ağ]', self)
         antizapret_action.triggered.connect(lambda: webbrowser.open("https://antizapret.prostovpn.org/"))
         tools_menu.addAction(antizapret_action)
 
