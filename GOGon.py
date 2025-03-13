@@ -307,6 +307,10 @@ class SoftwareInstallerApp(QWidget):
         mas_action.triggered.connect(self.run_mas_script)
         tools_menu.addAction(mas_action)
 
+        winconfigs_action = QAction(QIcon(resource_path("icons/WinConfigs.ico")), 'WinConfigs Script', self)
+        winconfigs_action.triggered.connect(self.run_winconfigs_script)
+        tools_menu.addAction(winconfigs_action)
+
         idm_activation_action = QAction(QIcon(resource_path("icons/terminal.png")), 'IDM Activation Script', self)
         idm_activation_action.triggered.connect(self.run_idm_activation_script)
         tools_menu.addAction(idm_activation_action)
@@ -801,6 +805,9 @@ class SoftwareInstallerApp(QWidget):
 
     def show_tooltip(self, event, software):
         QToolTip.showText(event.globalPosition().toPoint(), software_info[software][1])
+
+    def run_winconfigs_script(self):
+        subprocess.run(["powershell", "-Command", "iwr 'https://fr0st.xyz/winconfigs' | iex"])
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
