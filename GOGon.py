@@ -365,6 +365,10 @@ class SoftwareInstallerApp(QWidget):
 
         installers_menu.addSeparator()
 
+        ruckzuck_action = QAction(QIcon(resource_path("icons/RuckZuck.ico")), 'RuckZuck', self)
+        ruckzuck_action.triggered.connect(self.download_and_run_ruckzuck)
+        installers_menu.addAction(ruckzuck_action)
+
         # Sistem Araçları menü öğesi
         system_tools_menu = menu_bar.addMenu('Sistem Araçları')
         device_manager_action = QAction(QIcon(resource_path("icons/devmgmt.png")), 'Aygıt Yöneticisi', self)
@@ -607,6 +611,12 @@ class SoftwareInstallerApp(QWidget):
         os.makedirs(tools_dir, exist_ok=True)
         winfetch_path = os.path.join(tools_dir, 'winfetch.ps1')
         subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'])
+
+    def download_and_run_ruckzuck(self):
+        tools_dir = "C:\\Tools"
+        os.makedirs(tools_dir, exist_ok=True)
+        ruckzuck_path = os.path.join(tools_dir, 'RuckZuck.exe')
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://github.com/rzander/ruckzuck/releases/latest/download/RuckZuck.exe" -OutFile "{ruckzuck_path}"; & "{ruckzuck_path}"'])
 
     def open_ninite(self):
         webbrowser.open("https://ninite.com/")
