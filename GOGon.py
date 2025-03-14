@@ -13,7 +13,7 @@ import glob
 import winreg
 from PySide6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QLabel, QCheckBox, QPushButton,
-    QProgressBar, QMessageBox, QGridLayout, QHBoxLayout, QScrollArea, QMenuBar, QComboBox, QFrame, QTableWidget, QTableWidgetItem, QGroupBox, QToolTip, QGraphicsDropShadowEffect
+    QProgressBar, QMessageBox, QGridLayout, QHBoxLayout, QScrollArea, QMenuBar, QComboBox, QFrame, QTableWidget, QTableWidgetItem, QGroupBox, QToolTip, QGraphicsDropShadowEffect, QLineEdit
 )
 from PySide6.QtGui import QPixmap, QIcon, QAction, QPalette, QColor, QFont, QCursor
 from PySide6.QtCore import Qt, QMetaObject, Slot, Q_ARG, QTimer, QPoint
@@ -307,10 +307,6 @@ class SoftwareInstallerApp(QWidget):
         mas_action.triggered.connect(self.run_mas_script)
         tools_menu.addAction(mas_action)
 
-        winconfigs_action = QAction(QIcon(resource_path("icons/WinConfigs.ico")), 'WinConfigs Script', self)
-        winconfigs_action.triggered.connect(self.run_winconfigs_script)
-        tools_menu.addAction(winconfigs_action)
-
         idm_activation_action = QAction(QIcon(resource_path("icons/terminal.png")), 'IDM Activation Script', self)
         idm_activation_action.triggered.connect(self.run_idm_activation_script)
         tools_menu.addAction(idm_activation_action)
@@ -455,6 +451,27 @@ class SoftwareInstallerApp(QWidget):
 
         main_layout.setMenuBar(menu_bar)
 
+        search_layout = QHBoxLayout()
+        search_label = QLabel('Yazılım Ara:')
+        search_label.setStyleSheet("font-size: 14px; font-family: 'Calibri';")
+        search_layout.addWidget(search_label)
+        
+        self.search_bar = QLineEdit(self)
+        self.search_bar.setPlaceholderText('Yazılım ismi girin...')
+        self.search_bar.setStyleSheet("""
+            QLineEdit {
+                font-size: 14px;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-family: 'Calibri';
+            }
+        """)
+        self.search_bar.textChanged.connect(self.filter_software_list)
+        search_layout.addWidget(self.search_bar)
+        
+        main_layout.addLayout(search_layout)
+
         title = QLabel('Yüklemek istediğiniz yazılımları seçin:')
         title.setStyleSheet("font-size: 16px; font-weight: 900; font-family: 'Calibri';")
         main_layout.addWidget(title)
@@ -591,21 +608,21 @@ class SoftwareInstallerApp(QWidget):
         QMessageBox.about(self, "Hakkında", "GOG - Çevrimiçi Yükleyici\n\nBu program, çeşitli yazılımların kolayca indirilip kurulmasına yardımcı olmak amacıyla, tamamen yapay zeka kullanılarak GOG tarafından geliştirilmiştir.")
 
     def run_mas_script(self):
-        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "irm https://get.activated.win | iex"])).start()
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "irm https://get.activated.win | iex"], capture_output=True, timeout=300)).start()
 
     def run_ctt_script(self):
-        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", 'Start-Process powershell -ArgumentList "irm https://christitus.com/win | iex" -Verb RunAs'])).start()
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", 'Start-Process powershell -ArgumentList "irm https://christitus.com/win | iex" -Verb RunAs'], capture_output=True, timeout=300)).start()
 
     def run_idm_activation_script(self):
-        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "iex(irm is.gd/idm_reset)"])).start()
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "iex(irm is.gd/idm_reset)"], capture_output=True, timeout=300)).start()
 
     def download_and_run_defender_remover(self):
         threading.Thread(target=self._download_and_run_defender_remover).start()
 
     def _download_and_run_defender_remover(self):
         local_filename = os.path.join(tempfile.gettempdir(), "DefenderRemover.exe")
-        subprocess.run(["curl", "-L", "-o", local_filename, "https://github.com/ionuttbara/windows-defender-remover/releases/latest/download/DefenderRemover.exe"])
-        subprocess.run(["powershell", "-Command", f'Start-Process "{local_filename}" -Verb RunAs'])
+        subprocess.run(["curl", "-L", "-o", local_filename, "https://github.com/ionuttbara/windows-defender-remover/releases/latest/download/DefenderRemover.exe"], capture_output=True, timeout=300)
+        subprocess.run(["powershell", "-Command", f'Start-Process "{local_filename}" -Verb RunAs'], capture_output=True, timeout=300)
 
     def run_fido_script(self):
         threading.Thread(target=self._run_fido_script).start()
@@ -614,7 +631,7 @@ class SoftwareInstallerApp(QWidget):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         fido_path = os.path.join(tools_dir, 'Fido.ps1')
-        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile "{fido_path}"; & "{fido_path}"'])
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile "{fido_path}"; & "{fido_path}"'], capture_output=True, timeout=300)
 
     def run_winfetch_script(self):
         threading.Thread(target=self._run_winfetch_script).start()
@@ -623,7 +640,7 @@ class SoftwareInstallerApp(QWidget):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         winfetch_path = os.path.join(tools_dir, 'winfetch.ps1')
-        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'])
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'], capture_output=True, timeout=300)
 
     def download_and_run_ruckzuck(self):
         threading.Thread(target=self._download_and_run_ruckzuck).start()
@@ -632,7 +649,7 @@ class SoftwareInstallerApp(QWidget):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         ruckzuck_path = os.path.join(tools_dir, 'RuckZuck.exe')
-        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://github.com/rzander/ruckzuck/releases/latest/download/RuckZuck.exe" -OutFile "{ruckzuck_path}"; & "{ruckzuck_path}"'])
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://github.com/rzander/ruckzuck/releases/latest/download/RuckZuck.exe" -OutFile "{ruckzuck_path}"; & "{ruckzuck_path}"'], capture_output=True, timeout=300)
 
     def open_ninite(self):
         webbrowser.open("https://ninite.com/")
@@ -689,11 +706,11 @@ class SoftwareInstallerApp(QWidget):
                     QMetaObject.invokeMethod(self, "scroll_to_software", Qt.QueuedConnection, Q_ARG(str, software))
 
                 if software == "Spotify SpotX":
-                    subprocess.run(["powershell", "-Command", "iex \"& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -confirm_uninstall_ms_spoti -confirm_spoti_recomended_over -podcasts_off -block_update_on -start_spoti -new_theme -adsections_off -lyrics_stat spotify\"; Stop-Process -Name Spotify"])
+                    subprocess.run(["powershell", "-Command", "iex \"& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -confirm_uninstall_ms_spoti -confirm_spoti_recomended_over -podcasts_off -block_update_on -start_spoti -new_theme -adsections_off -lyrics_stat spotify\"; Stop-Process -Name Spotify"], capture_output=True, timeout=300)
                 elif callable(url):
                     url()
                 elif url.endswith(".py"):
-                    subprocess.run(["python", url])
+                    subprocess.run(["python", url], capture_output=True, timeout=300)
                 elif url.startswith("http://") or url.startswith("https://"):
                     response = requests.get(url)
                     file_name = os.path.join(temp_dir, url.split("/")[-1])
@@ -701,11 +718,11 @@ class SoftwareInstallerApp(QWidget):
                     with open(file_name, "wb") as file:
                         file.write(response.content)
 
-                    subprocess.run(["cmd.exe", "/c", file_name])
+                    subprocess.run(["cmd.exe", "/c", file_name], capture_output=True, timeout=300)
                 else:
                     # Yerel dosya yolu
                     local_path = resource_path(url)
-                    subprocess.run(["cmd.exe", "/c", local_path])
+                    subprocess.run(["cmd.exe", "/c", local_path], capture_output=True, timeout=300)
 
                 end_time = time.time()
                 installation_time = end_time - start_time
@@ -818,11 +835,13 @@ class SoftwareInstallerApp(QWidget):
     def show_tooltip(self, event, software):
         QToolTip.showText(event.globalPosition().toPoint(), software_info[software][1])
 
-    def run_winconfigs_script(self):
-        threading.Thread(target=self._run_winconfigs_script).start()
-
-    def _run_winconfigs_script(self):
-        subprocess.run(["powershell", "-Command", 'Start-Process powershell -ArgumentList "iwr \'https://fr0st.xyz/winconfigs\' | iex" -Verb RunAs'])
+    def filter_software_list(self):
+        search_text = self.search_bar.text().lower()
+        for software, checkbox in self.software_checkboxes.items():
+            if search_text in software.lower():
+                checkbox.parentWidget().show()
+            else:
+                checkbox.parentWidget().hide()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
