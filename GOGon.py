@@ -591,32 +591,44 @@ class SoftwareInstallerApp(QWidget):
         QMessageBox.about(self, "Hakkında", "GOG - Çevrimiçi Yükleyici\n\nBu program, çeşitli yazılımların kolayca indirilip kurulmasına yardımcı olmak amacıyla, tamamen yapay zeka kullanılarak GOG tarafından geliştirilmiştir.")
 
     def run_mas_script(self):
-        subprocess.run(["powershell", "-Command", "irm https://get.activated.win | iex"])
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "irm https://get.activated.win | iex"])).start()
 
     def run_ctt_script(self):
-        subprocess.run(["powershell", "-Command", 'Start-Process powershell -ArgumentList "irm https://christitus.com/win | iex" -Verb RunAs'])
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", 'Start-Process powershell -ArgumentList "irm https://christitus.com/win | iex" -Verb RunAs'])).start()
 
     def run_idm_activation_script(self):
-        subprocess.run(["powershell", "-Command", "iex(irm is.gd/idm_reset)"])
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "iex(irm is.gd/idm_reset)"])).start()
 
     def download_and_run_defender_remover(self):
+        threading.Thread(target=self._download_and_run_defender_remover).start()
+
+    def _download_and_run_defender_remover(self):
         local_filename = os.path.join(tempfile.gettempdir(), "DefenderRemover.exe")
         subprocess.run(["curl", "-L", "-o", local_filename, "https://github.com/ionuttbara/windows-defender-remover/releases/latest/download/DefenderRemover.exe"])
         subprocess.run(["powershell", "-Command", f'Start-Process "{local_filename}" -Verb RunAs'])
 
     def run_fido_script(self):
+        threading.Thread(target=self._run_fido_script).start()
+
+    def _run_fido_script(self):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         fido_path = os.path.join(tools_dir, 'Fido.ps1')
         subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile "{fido_path}"; & "{fido_path}"'])
 
     def run_winfetch_script(self):
+        threading.Thread(target=self._run_winfetch_script).start()
+
+    def _run_winfetch_script(self):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         winfetch_path = os.path.join(tools_dir, 'winfetch.ps1')
         subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'])
 
     def download_and_run_ruckzuck(self):
+        threading.Thread(target=self._download_and_run_ruckzuck).start()
+
+    def _download_and_run_ruckzuck(self):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         ruckzuck_path = os.path.join(tools_dir, 'RuckZuck.exe')
@@ -807,7 +819,10 @@ class SoftwareInstallerApp(QWidget):
         QToolTip.showText(event.globalPosition().toPoint(), software_info[software][1])
 
     def run_winconfigs_script(self):
-        subprocess.run(["powershell", "-Command", "iwr 'https://fr0st.xyz/winconfigs' | iex"])
+        threading.Thread(target=self._run_winconfigs_script).start()
+
+    def _run_winconfigs_script(self):
+        subprocess.run(["powershell", "-Command", 'Start-Process powershell -ArgumentList "iwr \'https://fr0st.xyz/winconfigs\' | iex" -Verb RunAs'])
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
