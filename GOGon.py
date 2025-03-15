@@ -360,13 +360,11 @@ class SoftwareInstallerApp(QWidget):
         ninite_action.triggered.connect(self.open_ninite)
         installers_menu.addAction(ninite_action)
 
+        installers_menu.addSeparator()
+
         packagepicker_action = QAction(QIcon(resource_path("icons/PackagePicker.svg")), 'PackagePicker.co', self)
         packagepicker_action.triggered.connect(self.open_packagepicker)
         installers_menu.addAction(packagepicker_action)
-
-        ctt_action = QAction(QIcon(resource_path("icons/ChrisTitusTech.png")), "Chris Titus Tech's Windows Utility", self)
-        ctt_action.triggered.connect(self.run_ctt_script)
-        installers_menu.addAction(ctt_action)
 
         winget_run_action = QAction(QIcon(resource_path("icons/winget.run.ico")), 'Winget.run', self)
         winget_run_action.triggered.connect(lambda: webbrowser.open("https://winget.run/"))
@@ -381,6 +379,10 @@ class SoftwareInstallerApp(QWidget):
         ruckzuck_action = QAction(QIcon(resource_path("icons/RuckZuck.ico")), 'RuckZuck', self)
         ruckzuck_action.triggered.connect(self.download_and_run_ruckzuck)
         installers_menu.addAction(ruckzuck_action)
+
+        ctt_action = QAction(QIcon(resource_path("icons/ChrisTitusTech.png")), "Chris Titus Tech's Windows Utility", self)
+        ctt_action.triggered.connect(self.run_ctt_script)
+        installers_menu.addAction(ctt_action)
 
         # Sistem Araçları menü öğesi
         system_tools_menu = menu_bar.addMenu('Sistem Araçları')
