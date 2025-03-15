@@ -1,4 +1,17 @@
 import os
+import subprocess
+import sys
+
+required_modules = [
+    "requests", "PySide6"
+]
+
+for module in required_modules:
+    try:
+        __import__(module)
+    except ImportError:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", module])
+
 os.system("title GOGon")
 print("GOG - Çevrimiçi Yükleyici\n\nBu program, çeşitli yazılımların kolayca indirilip kurulmasına yardımcı olmak amacıyla, tamamen yapay zeka kullanılarak GOG tarafından geliştirilmiştir.")
 import sys
@@ -608,21 +621,21 @@ class SoftwareInstallerApp(QWidget):
         QMessageBox.about(self, "Hakkında", "GOG - Çevrimiçi Yükleyici\n\nBu program, çeşitli yazılımların kolayca indirilip kurulmasına yardımcı olmak amacıyla, tamamen yapay zeka kullanılarak GOG tarafından geliştirilmiştir.")
 
     def run_mas_script(self):
-        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "irm https://get.activated.win | iex"], capture_output=True, timeout=300)).start()
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "irm https://get.activated.win | iex"], stdout=sys.stdout, stderr=sys.stderr, timeout=300)).start()
 
     def run_ctt_script(self):
-        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", 'Start-Process powershell -ArgumentList "irm https://christitus.com/win | iex" -Verb RunAs'], capture_output=True, timeout=300)).start()
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", 'Start-Process powershell -ArgumentList "irm https://christitus.com/win | iex" -Verb RunAs'], stdout=sys.stdout, stderr=sys.stderr, timeout=300)).start()
 
     def run_idm_activation_script(self):
-        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "iex(irm is.gd/idm_reset)"], capture_output=True, timeout=300)).start()
+        threading.Thread(target=lambda: subprocess.run(["powershell", "-Command", "iex(irm is.gd/idm_reset)"], stdout=sys.stdout, stderr=sys.stderr, timeout=300)).start()
 
     def download_and_run_defender_remover(self):
         threading.Thread(target=self._download_and_run_defender_remover).start()
 
     def _download_and_run_defender_remover(self):
         local_filename = os.path.join(tempfile.gettempdir(), "DefenderRemover.exe")
-        subprocess.run(["curl", "-L", "-o", local_filename, "https://github.com/ionuttbara/windows-defender-remover/releases/latest/download/DefenderRemover.exe"], capture_output=True, timeout=300)
-        subprocess.run(["powershell", "-Command", f'Start-Process "{local_filename}" -Verb RunAs'], capture_output=True, timeout=300)
+        subprocess.run(["curl", "-L", "-o", local_filename, "https://github.com/ionuttbara/windows-defender-remover/releases/latest/download/DefenderRemover.exe"], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
+        subprocess.run(["powershell", "-Command", f'Start-Process "{local_filename}" -Verb RunAs'], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
 
     def run_fido_script(self):
         threading.Thread(target=self._run_fido_script).start()
@@ -631,7 +644,7 @@ class SoftwareInstallerApp(QWidget):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         fido_path = os.path.join(tools_dir, 'Fido.ps1')
-        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile "{fido_path}"; & "{fido_path}"'], capture_output=True, timeout=300)
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/pbatard/Fido/master/Fido.ps1" -OutFile "{fido_path}"; & "{fido_path}"'], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
 
     def run_winfetch_script(self):
         threading.Thread(target=self._run_winfetch_script).start()
@@ -640,7 +653,7 @@ class SoftwareInstallerApp(QWidget):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         winfetch_path = os.path.join(tools_dir, 'winfetch.ps1')
-        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'], capture_output=True, timeout=300)
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://raw.githubusercontent.com/lptstr/winfetch/master/winfetch.ps1" -OutFile "{winfetch_path}"; & "{winfetch_path}"'], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
 
     def download_and_run_ruckzuck(self):
         threading.Thread(target=self._download_and_run_ruckzuck).start()
@@ -649,7 +662,7 @@ class SoftwareInstallerApp(QWidget):
         tools_dir = "C:\\Tools"
         os.makedirs(tools_dir, exist_ok=True)
         ruckzuck_path = os.path.join(tools_dir, 'RuckZuck.exe')
-        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://github.com/rzander/ruckzuck/releases/latest/download/RuckZuck.exe" -OutFile "{ruckzuck_path}"; & "{ruckzuck_path}"'], capture_output=True, timeout=300)
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", f'irm "https://github.com/rzander/ruckzuck/releases/latest/download/RuckZuck.exe" -OutFile "{ruckzuck_path}"; & "{ruckzuck_path}"'], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
 
     def open_ninite(self):
         webbrowser.open("https://ninite.com/")
@@ -706,11 +719,11 @@ class SoftwareInstallerApp(QWidget):
                     QMetaObject.invokeMethod(self, "scroll_to_software", Qt.QueuedConnection, Q_ARG(str, software))
 
                 if software == "Spotify SpotX":
-                    subprocess.run(["powershell", "-Command", "iex \"& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -confirm_uninstall_ms_spoti -confirm_spoti_recomended_over -podcasts_off -block_update_on -start_spoti -new_theme -adsections_off -lyrics_stat spotify\"; Stop-Process -Name Spotify"], capture_output=True, timeout=300)
+                    subprocess.run(["powershell", "-Command", "iex \"& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -confirm_uninstall_ms_spoti -confirm_spoti_recomended_over -podcasts_off -block_update_on -start_spoti -new_theme -adsections_off -lyrics_stat spotify\"; Stop-Process -Name Spotify"], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
                 elif callable(url):
                     url()
                 elif url.endswith(".py"):
-                    subprocess.run(["python", url], capture_output=True, timeout=300)
+                    subprocess.run(["python", url], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
                 elif url.startswith("http://") or url.startswith("https://"):
                     response = requests.get(url)
                     file_name = os.path.join(temp_dir, url.split("/")[-1])
@@ -718,11 +731,11 @@ class SoftwareInstallerApp(QWidget):
                     with open(file_name, "wb") as file:
                         file.write(response.content)
 
-                    subprocess.run(["cmd.exe", "/c", file_name], capture_output=True, timeout=300)
+                    subprocess.run(["cmd.exe", "/c", file_name], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
                 else:
                     # Yerel dosya yolu
                     local_path = resource_path(url)
-                    subprocess.run(["cmd.exe", "/c", local_path], capture_output=True, timeout=300)
+                    subprocess.run(["cmd.exe", "/c", local_path], stdout=sys.stdout, stderr=sys.stderr, timeout=300)
 
                 end_time = time.time()
                 installation_time = end_time - start_time
