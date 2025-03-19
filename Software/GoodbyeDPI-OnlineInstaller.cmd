@@ -28,7 +28,7 @@ for /d %%D in ("%SYSTEMDRIVE%\tools\goodbyedpi-*") do (
 
 ECHO MASAUSTUNE KISAYOL OLUSTURULUYOR...
 set "BaseDir=%SystemDrive%\Tools"
-POWERSHELL -Command "Start-Process cmd -ArgumentList '/c mklink %PUBLIC%\Desktop\GoodbyeDPI %SYSTEMDRIVE%\tools\GoodbyeDPI\2_any_country_dnsredir.cmd' -WindowStyle Hidden -Verb RunAs -Wait"
+POWERSHELL; Start-Process cmd -ArgumentList '/c mklink %PUBLIC%\Desktop\GoodbyeDPI %SYSTEMDRIVE%\Tools\GoodbyeDPI\2_any_country_dnsredir.cmd' -WindowStyle Hidden -Verb RunAs -Wait
 
 ECHO GECICI DOSYALAR TEMIZLENIYOR...
 DEL %SYSTEMDRIVE%\Tools\GoodbyeDPI.zip

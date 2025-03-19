@@ -20,9 +20,7 @@ ECHO %NAME% YUKLENIYOR...
     START /WAIT %TEMP%\%OUTPUT% /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-
 	
 ECHO MASAUSTUNE KISAYOL OLUSTURULUYOR...
-    SET "TARGET=%ProgramFiles%\HWiNFO64\HWiNFO64.exe"
-    SET "SHORTCUT=%USERPROFILE%\Desktop\HWiNFO 64.lnk"
-    powershell -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%SHORTCUT%'); $s.TargetPath = '%TARGET%'; $s.Save()"
+    POWERSHELL; Start-Process cmd -ArgumentList '/c mklink %PUBLIC%\Desktop\HWiNFO64 %SYSTEMDRIVE%\PROGRA~1\HWiNFO64\HWiNFO64.exe' -WindowStyle Hidden -Verb RunAs -Wait
 
 ECHO GECICI DOSYALAR TEMIZLENIYOR...
     DEL %TEMP%\%OUTPUT%

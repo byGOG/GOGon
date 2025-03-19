@@ -266,7 +266,6 @@ class SoftwareInstallerApp(QWidget):
         }
         self.total_software_count = sum(len(software_dict) for software_dict in software_list.values())
         self.software_info_labels = {}
-        self.category_groups = {}
         self.initUI()
 
     def initUI(self):
@@ -509,7 +508,6 @@ class SoftwareInstallerApp(QWidget):
 
         for category, software_dict in software_list.items():
             category_group = QGroupBox(category)
-            self.category_groups[category] = category_group
             category_group.setStyleSheet("QGroupBox { font-weight: bold; font-family: 'Calibri '; }")
             category_layout = QVBoxLayout(category_group)
             category_layout.setSpacing(2)  # Reduce spacing between items
@@ -854,17 +852,11 @@ class SoftwareInstallerApp(QWidget):
 
     def filter_software_list(self):
         search_text = self.search_bar.text().lower()
-        for category, software_dict in software_list.items():
-            category_group = self.category_groups.get(category)
-            category_visible = False
-            for software in software_dict:
-                checkbox = self.software_checkboxes.get(software)
-                if search_text in software.lower():
-                    checkbox.parentWidget().show()
-                    category_visible = True
-                else:
-                    checkbox.parentWidget().hide()
-            category_group.setVisible(category_visible)
+        for software, checkbox in self.software_checkboxes.items():
+            if search_text in software.lower():
+                checkbox.parentWidget().show()
+            else:
+                checkbox.parentWidget().hide()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

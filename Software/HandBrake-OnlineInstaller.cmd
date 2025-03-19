@@ -22,9 +22,7 @@ ECHO %NAME% YUKLENIYOR...
     start /wait %TEMP%\%OUTPUT% /S /desktopshortcut /quicklaunchshortcut /startmenu
 
 ECHO MASAUSTUNE KISAYOL OLUSTURULUYOR...
-    SET "TARGET=%ProgramFiles%\HandBrake\HandBrake.exe"
-    SET "SHORTCUT=%USERPROFILE%\Desktop\HandBrake.lnk"
-    powershell -Command "$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%SHORTCUT%'); $s.TargetPath = '%TARGET%'; $s.Save()"
+    POWERSHELL; Start-Process cmd -ArgumentList '/c mklink %PUBLIC%\Desktop\HandBrake %SYSTEMDRIVE%\PROGRA~1\HandBrake\HandBrake.exe' -WindowStyle Hidden -Verb RunAs -Wait
 
 ECHO GECICI DOSYALAR TEMIZLENIYOR...
     DEL %TEMP%\%OUTPUT%

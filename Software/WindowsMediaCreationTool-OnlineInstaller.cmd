@@ -28,20 +28,6 @@ IF %ERRORLEVEL% NEQ 0 (
     EXIT /B 1
 )
 
-REM Masaüstü kısayolu oluşturma
-echo Masaüstü kısayolu oluşturuluyor...
-set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
-
-echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
-echo sLinkFile = oWS.SpecialFolders("Desktop") ^& "\Tools.lnk" >> %SCRIPT%
-echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %SCRIPT%
-echo oLink.TargetPath = "C:\Tools" >> %SCRIPT%
-:: Simge dosyasını tanımla - Windows'un standart simgelerinden biri kullanılıyor
-echo oLink.IconLocation = "C:\Windows\System32\SHELL32.dll,24" >> %SCRIPT%
-echo oLink.Save >> %SCRIPT%
-
-cscript /nologo %SCRIPT%
-del %SCRIPT%
 
 ECHO Kurulum başarıyla tamamlandı! BY GOG [SORDUM.NET]
 ECHO ---------------------------------------------------

@@ -53,7 +53,7 @@ DEL %SYSTEMDRIVE%\Tools\DriverStoreExplorer.zip
 
 REM Masaüstüne kısayol oluşturuluyor...
 ECHO Masaüstüne kısayol oluşturuluyor...
-POWERSHELL -Command "Start-Process cmd -ArgumentList '/c mklink %PUBLIC%\Desktop\DriverStoreExplorer.lnk %SYSTEMDRIVE%\Tools\DriverStoreExplorer\Rapr.exe' -WindowStyle Hidden -Verb RunAs -Wait"
+powershell -Command "Start-Process -FilePath 'cmd.exe' -ArgumentList '/c mklink \"%PUBLIC%\Desktop\Driver Store Explorer\" \"%SYSTEMDRIVE%\Tools\DriverStoreExplorer\Rapr.exe\"' -Verb RunAs -Wait"
 
 ECHO Kurulum başarıyla tamamlandı! BY GOG [SORDUM.NET]
 ECHO ---------------------------------------------------

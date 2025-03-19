@@ -51,7 +51,7 @@ DEL %SYSTEMDRIVE%\Tools\Cmder.zip
 
 REM Masaüstüne kısayol oluşturuluyor...
 ECHO Masaüstüne kısayol oluşturuluyor...
-POWERSHELL -Command "Start-Process cmd -ArgumentList '/c mklink %PUBLIC%\Desktop\Cmder.lnk %SYSTEMDRIVE%\Tools\Cmder\Cmder.exe' -WindowStyle Hidden -Verb RunAs -Wait"
+POWERSHELL; Start-Process cmd -ArgumentList '/c mklink %PUBLIC%\Desktop\Cmder %SYSTEMDRIVE%\Tools\Cmder\Cmder.exe' -WindowStyle Hidden -Verb RunAs -Wait
 
 ECHO Kurulum başarıyla tamamlandı! BY GOG [SORDUM.NET]
 ECHO ---------------------------------------------------
